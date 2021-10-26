@@ -12,12 +12,12 @@ public class Menu {
 	public static void main (String[] args) {
 		Menu menu = new Menu();
 		// Base list of predefined menuItems
-		//menu.LoadBaseMenu();
+		menu.LoadBaseMenu();
 		//menu.CreateNewMenuItem();
 		//menu.RemoveMenuItem(2, true);
 		//menu.LoadBaseMenu();
-		menu.CreateNewMenuItem();
-
+		//menu.CreateNewMenuItem();
+		menu.Remove();
 	}
 	
 	// Loads the base menu and concatenates the list of base menu items to current item list.
@@ -202,7 +202,7 @@ public class Menu {
 			int latestIndex = itemList.lastIndexOf(m);
 			System.out.println("");
 			System.out.println("=====================ADDED ITEM===========================");
-			PrintSingleItem(latestIndex);
+			PrintFromMenuListItem(latestIndex);
 			System.out.println("=========================================================");
 			System.out.println("");
 			PrintMenu();
@@ -235,7 +235,7 @@ public class Menu {
 		if(choice == 1) {
 			System.out.println("Item Number:");
 			int index = sc.nextInt();
-			UpdateMenuItem(index);
+			UpdateMenuItem(index - 1);
 		}
 		else {
 			/*System.out.println("Promotion Number:");
@@ -244,21 +244,27 @@ public class Menu {
 		}
 	}
 	
-	// Updates Menu item of specified index
+	// Updates Menu item of specified index, also ask the user for input as to what to update
 	public void UpdateMenuItem(int index) {	
 		Scanner sc = new Scanner(System.in);
 
 		MenuItem m = itemList.get(index);
 		
-		System.out.println("(1) Update Name");
-		System.out.println("(2) Update Price");
-		System.out.println("(3) Update Description");
-		System.out.println("(4) Update Category");
+		System.out.println("");
+		System.out.println("================ SELECTED ITEM ===================");
+		PrintFromMenuListItem(index);
+		System.out.println("==================================================");
+
+		System.out.println("(1)Change Name");
+		System.out.println("(2)Change Price");
+		System.out.println("(3)Change Description");
+		System.out.println("(4)Change Category");
 
 		int option = sc.nextInt();
 		
 		switch(option) {
 			case 1: 
+				sc.nextLine();
 				System.out.println("New Name");
 				String newName = sc.nextLine();
 				m.setItemName(newName, false);
@@ -269,19 +275,21 @@ public class Menu {
 				m.setItemPrice(newPrice, false);
 			break;
 			case 3: 
+				sc.nextLine();
 				System.out.println("New Description");
 				String newDescript = sc.nextLine();
 				m.setItemDescription(newDescript, false);
 			break;
 			case 4: 
+				sc.nextLine();
 				System.out.println("New Category");
 				MenuCategory newCate = MenuCategory.valueOf(sc.nextLine().toUpperCase());
 				m.setMenuCategory(newCate, false);
 			break;
 		}
 		System.out.println("");
-		System.out.println("=====================UPDATED ITEM========================");
-		PrintSingleItem(index);
+		System.out.println("======================= UPDATED =========================");
+		PrintFromMenuListItem(index);
 		System.out.println("=========================================================");
 		System.out.println("");
 	}
@@ -300,6 +308,7 @@ public class Menu {
 		
 		switch(option) {
 			case 1: 
+				sc.nextLine();
 				System.out.println("New Name");
 				String newName = sc.nextLine();
 				p.setPromoName(newName, false);
@@ -314,6 +323,7 @@ public class Menu {
 				String itemName = sc.nextLine();
 
 				// Read Description
+				sc.nextLine();
 				System.out.println("Description:");
 				String desp = sc.nextLine();
 
@@ -352,7 +362,8 @@ public class Menu {
 		if(choice == 1) {
 			System.out.println("Item Number:");
 			int index = sc.nextInt();
-			RemoveFromItemList(index);
+			RemoveFromItemList(index - 1);
+			PrintMenu();
 		}
 		else {
 			/*System.out.println("Promotion Number:");
@@ -363,50 +374,39 @@ public class Menu {
 	}
 	
 	public void RemoveFromItemList(int index) {
+		MenuItem m = itemList.get(index);
 		itemList.remove(index);
+
+		System.out.println("");
+		System.out.println("======================= REMOVED =========================");
+		PrintItem(m);
+		System.out.println("=========================================================");
+		System.out.println("");
+	
+		DecItemListSize();
 	}
 	
 	/*public void RemoveFromPromoList(int index) {
 		menuPromoList.remove(index);
 	}*/
 	
-
-	// Removes menu item of specified index
-	public void RemoveMenuItem(int index, boolean print) {		
-		MenuItem itemToBeRemoved = itemList.get(index);
-
-		if(print) {
-			System.out.println("");
-			System.out.println("=====================REMOVED ITEM========================");
-			PrintSingleItem(index);
-			System.out.println("=========================================================");		
-			System.out.println("");
-		}
-
-		itemList.remove(itemToBeRemoved);
-		DecItemListSize();
-
-		if(print)
-			PrintMenu();
-	}
-
 	// Prints entire current itemList
 	
 	public void PrintMenu() {
 		System.out.println("");
 		System.out.println("==================== MENU ========================");
-
+		
 		System.out.println("");
 		System.out.println("==================== ITEMS ========================");
 		for(int i =0; i < itemList.size();i++) {
-			PrintSingleItem(i);
+			PrintFromMenuListItem(i);
 		}
 
 		System.out.println("");
 		System.out.println("==================== PROMOTIONS ========================");
 
 		// Prints all promotion items in MENU
-		/*for(int i =0; i < promoList.size();i++) {
+		/*for(int i =0; i < menuPromoList.size();i++) {
 			PrintSinglePromotion(i);
 		}*/
 
@@ -415,23 +415,34 @@ public class Menu {
 		System.out.println("");
 	}
 
-	// Prints only the selected index item
-	
-	public void PrintSingleItem(int index) {
-		System.out.println("");
+	// Prints only the selected index from item list
+	public void PrintFromMenuListItem(int index) {
 		System.out.println("Item: " + (index+1));
-		System.out.println("Name: " + itemList.get(index).getItemName());
-		System.out.printf("Price: $%.2f\n" ,itemList.get(index).getItemPrice());
-		System.out.println("Description: " + itemList.get(index).getItemDescription());
-		System.out.println("Category: " + itemList.get(index).getMenuCategory());
+		PrintItem(itemList.get(index));
+	}
+	
+	// Prints Menu Item in stated format
+	public void PrintItem(MenuItem m) {
+		System.out.println("");
+		System.out.println("Name: " + m.getItemName());
+		System.out.printf("Price: $%.2f\n" ,m.getItemPrice());
+		System.out.println("Description: " + m.getItemDescription());
+		System.out.println("Category: " + m.getMenuCategory());
 		System.out.println("");
 	}
+	
+	/*public void PrintFromPromoListItem(int index) {
+		System.out.println("");
+		System.out.println("Promotion: " + (index+1));
+	    PrintPromotion(menuPromoList.get(index));
+		System.out.println("");
+	}*/
 
 	// Prints the promotion item
 	
-	/*public void PrintSinglePromotion(int index) {
+	/*public void PrintPromotion(Promotion p) {
 		System.out.println("");
-		promoList[index].displayPromotionItems();
+		p.displayPromotionItems();
 		System.out.println("");
 	}*/
 
