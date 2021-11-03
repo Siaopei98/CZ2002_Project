@@ -1,11 +1,14 @@
+package TEST;
+
+import java.awt.MenuItem;
 import java.util.ArrayList;
 
 // List of predefined menu items
 
 public class BaseMenu {
-	int size = 4;
-	public ArrayList<MenuItem> baseItemList = new ArrayList<MenuItem> ();
-	//private ArrayList<Promotion> promoList = new ArrayList<Promotion> ();
+	private ArrayList<MenuItem> baseItemList = new ArrayList<MenuItem> ();
+	private ArrayList<Promotion> basePromoList = new ArrayList<Promotion> ();
+	
 	MenuItem m1 = new MenuItem("Hand Tossed Salad", "strawberries, dried cranberries, raisins, pineapple" , 5.00, MenuCategory.SIDES);
 	MenuItem m2 = new MenuItem("Caesar Salad", "parmesan cheese, lemon juice" , 8.00, MenuCategory.SIDES);
 	MenuItem m3 = new MenuItem("Fresh Juice", "orange / apple / watermelon" , 2.00, MenuCategory.DRINKS);
@@ -20,7 +23,18 @@ public class BaseMenu {
 		return baseItemList;
 	}
 	
+	public ArrayList<MenuItem> getBaseItemList(){
+		return baseItemList;
+	}
+	
+	public ArrayList<Promotion> getBasePromoList(){
+		return basePromoList;
+	}
+	
 	public int baseMenuSize() {
-		return size;
+		return baseItemList.size();
+	}
+	public int basePromoSize() {
+		return basePromoList.size();
 	}
 }

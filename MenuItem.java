@@ -1,4 +1,4 @@
-
+package TEST;
 public class MenuItem {
 
 	private String name;
