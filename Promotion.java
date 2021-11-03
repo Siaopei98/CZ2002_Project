@@ -48,6 +48,11 @@ public class Promotion {
 		return this.promotionSet;
 	}
 	
+	public MenuItem getMenuItem(int index) {
+		//get item from array,array 0 base index
+		//item display from 1 onwards but start from 0 base index
+		return promotionSet.get(index);
+	}
 	public double getOriginalPrice() {
 		double sum = 0;
 		for(MenuItem mItem : promotionSet) {
