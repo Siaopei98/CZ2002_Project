@@ -183,7 +183,7 @@ public class Order {
 			System.out.printf("Removed %i %s from your alacarte order\n", removeitemqty, itemToRemove.getItemName());
 			System.out.println("Enter menu item to remove or type -1 to stop removing");
 			removeitemnumber = sc.nextInt();
-		} while(removeitemnumber != 1);
+		} while(removeitemnumber != -1);
 	}
 	
 	// PRINTS PROMO MENU AND ASK UISER INPUT TO ADD PROMO ITEMS. IN WHILE LOOP.
@@ -228,7 +228,7 @@ public class Order {
 			System.out.printf("Removed %i %s from your promotions order\n", removepromoqty, itemToRemove.getItemName());
 			System.out.println("Enter promo item to remove or type -1 to stop removing");
 			removepromonumber = sc.nextInt();
-		} while(removepromonumber != 1);
+		} while(removepromonumber != -1);
 	}
 	
 	// ADDS ALACARTE MENU ITEM INTO ORDER'S ALACARTE ARRAYLIST, UPDATES ALACARTE QTY AND TOTALPRICE
