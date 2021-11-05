@@ -48,6 +48,7 @@ public class Promotion {
 		return this.promotionSet;
 	}
 	
+	//return ala cart item from promotion set
 	public MenuItem getMenuItem(int index) {
 		//get item from array,array 0 base index
 		//item display from 1 onwards but start from 0 base index
